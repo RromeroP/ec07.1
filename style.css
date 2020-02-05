@@ -1,0 +1,28 @@
+#input {
+    margin: auto;
+    width: 50%;
+}
+
+#list input {
+    max-width: 50px;
+    text-align: center;
+}
+
+#list button {
+    color: red;
+}
+input {
+    max-width: 100px;
+    text-align: center;
+}
+
+.red {
+    color: red;
+}
+
+table {
+    border: 1px solid black;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}

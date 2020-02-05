@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div id="list">
+        <table>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Uds.</th>
+            <th>Total</th>
+            <th>Eliminar</th>
+            <tr v-for="(item, index) in items" v-bind:class="{red: 10 > item.price}">
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}€</td>
+                <td><input id="num" type="number" v-model="item.uds" min="1" v-on:click="get_sum_price"></input>
+                </td>
+                <td>{{ get_sum(index) }}€</td>
+                <td><button v-on:click="remove_self(index)">X</button></td>
+            </tr>
+            <th colspan="5">Total</th>
+            <tr>
+                <td colspan="5">{{ get_sum_price }}€</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="input">
+        <p>Producte: <input v-model:value="name"> Preu: <input type="number" min="1" v-model:value="price">€</p>
+        <button v-on:click="add_list">Afegir</button>
+        <button v-on:click="remove_list">Esborra l'última linia</button>
+    </div>
+
+    <script>
+        var list = new Vue({
+            el: '#list',
+            data: {
+                items: [
+                    { name: "Logitech", price: 20, uds: 3 },
+                    { name: "Razer", price: 9, uds: 5 }
+                ]
+            },
+            computed: {
+                get_sum_price: function () {
+                    var total = 0;
+                    this.items.forEach(item => {
+                        total += item.price * item.uds;
+                    });
+                    return total;
+                }
+
+            },
+            methods: {
+                remove_self: function (index) {
+                    this.items.splice(index, 1);
+                    this.get_sum_price()
+                },
+
+                get_sum: function (index) {
+                    return this.items[index].price * this.items[index].uds
+                }
+            }
+        })
+
+        var input = new Vue({
+            el: '#input',
+            data: {
+                name: "",
+                price: 1
+            },
+            methods: {
+                add_list: function () {
+                    list.items.push({ name: this.name, price: Number(this.price), uds: 1 });
+                    this.name = "";
+                    this.price = 1;
+                },
+                remove_list: function () {
+                    list.items.pop();
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
